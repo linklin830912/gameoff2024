@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --background-blue: '#0b1621';
+  --menu-blue: '#17222e';
+  --menu-hover-blue: '#1e2c3b';
+  --menu-font: '#faf4be';
+  --menu-font-hover: '#ffffff';
+  --content-font: '#faf4be';
+  --content-sub-font: '#1f2b38';
+  --basic: '#697c91';
+  --middle: '#fcf18d';
+  --advanced: '#d4c22a';
+}
+
+html {
+  scroll-behavior: smooth;
+}
