@@ -78,11 +78,13 @@ public class ParagraphsManager : MonoBehaviour
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
         }
-        // else if (currentSpawner.nextSpawner != null) { 
-        //     currentSpawner = currentSpawner.nextSpawner;
-        //     currentTextObject = currentSpawner.getClosestObject(currentTextObject, false);
-        //     return true;
-        // }
+        else if (currentSpawner.nextSpawner != null) { 
+            currentSpawner = currentSpawner.nextSpawner;
+            currentTextObject = currentSpawner.getClosestObject(currentTextObject, true);
+            PlayerMovement.setScale(currentSpawner.gameObject);
+            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
+            return true;
+        }
         return false;
     }
 
@@ -94,11 +96,13 @@ public class ParagraphsManager : MonoBehaviour
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
         }
-        // else if (currentSpawner.prevSpawner != null) { 
-        //     currentSpawner = currentSpawner.prevSpawner;
-        //     currentTextObject = currentSpawner.getClosestObject(currentTextObject, true);
-        //     return true;
-        // }
+        else if (currentSpawner.prevSpawner != null) { 
+            currentSpawner = currentSpawner.prevSpawner;
+            currentTextObject = currentSpawner.getClosestObject(currentTextObject, false);
+            PlayerMovement.setScale(currentSpawner.gameObject);
+            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
+            return true;
+        }
         return false;
     }
 }

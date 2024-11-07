@@ -74,15 +74,19 @@ public class ParagraphSpawner : MonoBehaviour
     }
     internal TextObject getClosestObject(TextObject textObject, bool fromStart) {
         TextObject beginAtObject = fromStart ? this.startObject : this.endObject;
+        TextObject closestObject = beginAtObject;
         float dis = beginAtObject.getDistance(textObject);
         float currentDis = dis;
-        while (currentDis<=dis) {
-            beginAtObject = fromStart ? beginAtObject.nextObject : beginAtObject.prevObject;
-            if (beginAtObject == null) break;
-            dis = beginAtObject.getDistance(textObject);
+        while (beginAtObject != null) {
+            currentDis = beginAtObject.getDistance(textObject);
+            if (currentDis < dis) {
+                closestObject = beginAtObject;
+                dis = currentDis;
+            }
+            beginAtObject = fromStart ? beginAtObject.nextObject : beginAtObject.prevObject; 
         }
-        this.currentObject = beginAtObject;
-        return beginAtObject;
+        this.currentObject = closestObject;
+        return closestObject;
     }
     internal bool nextObject() {
         if (this.currentObject.nextObject != null)
