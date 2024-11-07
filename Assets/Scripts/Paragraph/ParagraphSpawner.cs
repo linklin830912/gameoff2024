@@ -11,6 +11,7 @@ public class ParagraphSpawner : MonoBehaviour
     private ScriptableObject spawnObject;
     private ParagraphObject paragraphGeneratorObject;
     private TextObject startObject;
+    private TextObject endObject;
     private TextObject currentObject;
     
     internal ParagraphSpawner prevSpawner;
@@ -21,31 +22,46 @@ public class ParagraphSpawner : MonoBehaviour
         paragraphGeneratorObject = (ParagraphObject)spawnObject;
         Vector3 position = gameObject.transform.position;
         TextObject prevObject = null;
+        TextObject startLineObject = null;
+        TextObject prevLineObject = null;
+        bool isLineStart = false;
         if (paragraphGeneratorObject != null) {
             for(int i = 0; i <paragraphGeneratorObject.content.Length; i++) {
+                if(i==0)isLineStart = true;
                 String alphabet = paragraphGeneratorObject.content.Substring(i, 1);
-                if (alphabet.Equals("\n") || Math.Abs(gameObject.transform.position.x - position.x) > paragraphGeneratorObject.maxWidth)
+                if (alphabet.Equals(TextDictionaryGenerator._ENTER) || Math.Abs(gameObject.transform.position.x - position.x) > paragraphGeneratorObject.maxWidth)
                 {
-                    // line break
+                    // line break                    
                     position.x = gameObject.transform.position.x;
                     position.y -= paragraphGeneratorObject.lineHeight;
-                    if (alphabet.Equals(" ")) continue;
+                    prevLineObject = startLineObject;
+                    isLineStart = true;
+                    if (alphabet.Equals(TextDictionaryGenerator._SPACE)) continue;
                 }
-                if (alphabet.Equals("\n")) continue;
-                if (alphabet.Equals(" ")) alphabet = "space";                
+                if (alphabet.Equals(TextDictionaryGenerator._ENTER)) continue;
+
                 GameObject alphabetObject = TextDictionaryGenerator.getFontAlphabet(paragraphGeneratorObject.font, alphabet, gameObject);
-                alphabetObject.SetActive(true);
+                positionAlphabet(alphabetObject, ref position);
+
                 TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet);
+                textObject.setup(prevObject, prevLineObject, isLineStart);
+
+                if (isLineStart) startLineObject = textObject;
                 if (startObject == null) startObject = textObject;
-                textObject.setPrevObject(prevObject);
-                float fontWidth =  TextDictionaryGenerator.getFontSize(alphabetObject).x/2;
-                position.x += fontWidth+paragraphGeneratorObject.wordSpacing;
-                alphabetObject.transform.position = position;
-                position.x += fontWidth;
-                prevObject = textObject;    
+                prevLineObject = textObject.prevLineObject;
+                prevObject = textObject;
+                isLineStart = false;
+                endObject = textObject;
             }
         }
         currentObject = startObject;
+    }
+    private void positionAlphabet(GameObject alphabetObject, ref Vector3 position) { 
+        alphabetObject.SetActive(true);
+        float fontWidth =  TextDictionaryGenerator.getFontSize(alphabetObject).x/2;
+        position.x += fontWidth+paragraphGeneratorObject.wordSpacing;
+        alphabetObject.transform.position = position;
+        position.x += fontWidth;
     }
 
     internal void setPrevSpawner(ParagraphSpawner prevSpawner) { 
@@ -56,6 +72,18 @@ public class ParagraphSpawner : MonoBehaviour
     internal TextObject getCurrentObject() {
         return this.currentObject;
     }
+    internal TextObject getClosestObject(TextObject textObject, bool fromStart) {
+        TextObject beginAtObject = fromStart ? this.startObject : this.endObject;
+        float dis = beginAtObject.getDistance(textObject);
+        float currentDis = dis;
+        while (currentDis<=dis) {
+            beginAtObject = fromStart ? beginAtObject.nextObject : beginAtObject.prevObject;
+            if (beginAtObject == null) break;
+            dis = beginAtObject.getDistance(textObject);
+        }
+        this.currentObject = beginAtObject;
+        return beginAtObject;
+    }
     internal bool nextObject() {
         if (this.currentObject.nextObject != null)
         {
@@ -64,7 +92,6 @@ public class ParagraphSpawner : MonoBehaviour
         }
         return false;
     }
-
     internal bool prevObject() {
         if (this.currentObject.prevObject != null)
         {
@@ -73,5 +100,23 @@ public class ParagraphSpawner : MonoBehaviour
         }
         return false;
     }
+    
+    internal bool nextLineObject() {
+        if (this.currentObject.nextLineObject != null)
+        {
+            this.currentObject = this.currentObject.nextLineObject;
+            
+            return true;
+        }
+        return false;
+    }
 
+    internal bool prevLineObject() {
+        if (this.currentObject.prevLineObject != null)
+        {
+            this.currentObject = this.currentObject.prevLineObject;
+            return true;
+        }
+        return false;
+    }
 }

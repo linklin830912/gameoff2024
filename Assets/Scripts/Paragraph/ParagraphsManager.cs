@@ -27,7 +27,7 @@ public class ParagraphsManager : MonoBehaviour
     }
 
     
-    internal static bool nextObject() {
+    internal static bool moveToNextObject() {
         bool hasNext = currentSpawner.nextObject();
         if (hasNext)
         {
@@ -49,7 +49,7 @@ public class ParagraphsManager : MonoBehaviour
         }        
     }
 
-    internal static bool prevObject() {
+    internal static bool moveToPrevObject() {
         bool hasPrev = currentSpawner.prevObject();
         if (hasPrev)
         {
@@ -69,5 +69,36 @@ public class ParagraphsManager : MonoBehaviour
             Debug.Log("back to start");
             return false;
         }        
+    }
+    internal static bool moveToNextLineObject(){
+        bool hasNext = currentSpawner.nextLineObject();
+        if (hasNext)
+        {
+            currentTextObject = currentSpawner.getCurrentObject();
+            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
+            return true;
+        }
+        // else if (currentSpawner.nextSpawner != null) { 
+        //     currentSpawner = currentSpawner.nextSpawner;
+        //     currentTextObject = currentSpawner.getClosestObject(currentTextObject, false);
+        //     return true;
+        // }
+        return false;
+    }
+
+    internal static bool moveToPrevLineObject(){
+        bool hasNext = currentSpawner.prevLineObject();
+        if (hasNext)
+        {
+            currentTextObject = currentSpawner.getCurrentObject();
+            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
+            return true;
+        }
+        // else if (currentSpawner.prevSpawner != null) { 
+        //     currentSpawner = currentSpawner.prevSpawner;
+        //     currentTextObject = currentSpawner.getClosestObject(currentTextObject, true);
+        //     return true;
+        // }
+        return false;
     }
 }

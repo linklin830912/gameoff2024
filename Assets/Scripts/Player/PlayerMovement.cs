@@ -23,24 +23,36 @@ public class PlayerMovement : MonoBehaviour
         playerMovementInstance.gameObject.transform.position = position;
     }
     internal static void setScale(GameObject spawner) {
-        Debug.Log(spawner.transform.localScale);
         playerMovementInstance.gameObject.transform.localScale = spawner.transform.localScale;
     }
     private bool isHold = false;
     private int count = 0;
     private void playerMovementUpdate() { 
-        float dir = playerControl.ReadValue<float>();
-        if (dir > 0)
+        Vector2 dir = playerControl.ReadValue<Vector2>();
+        if (dir.x > 0)
         {            
             if(!isHold || (isHold && count >50 && count%5==0 ))
-                ParagraphsManager.nextObject();
+                ParagraphsManager.moveToNextObject();
                 isHold = true;
             count ++;
         }
-        else if (dir < 0)
+        else if (dir.x < 0)
         {            
             if(!isHold || (isHold && count >50 && count%5==0))
-                ParagraphsManager.prevObject();
+                ParagraphsManager.moveToPrevObject();
+                isHold = true;
+            count ++;
+        }else if (dir.y < 0)
+        {            
+            if(!isHold || (isHold && count >50 && count%5==0 ))
+                ParagraphsManager.moveToNextLineObject();
+                isHold = true;
+            count ++;
+        }
+        else if (dir.y > 0)
+        {            
+            if(!isHold || (isHold && count >50 && count%5==0))
+                ParagraphsManager.moveToPrevLineObject();
                 isHold = true;
             count ++;
         }

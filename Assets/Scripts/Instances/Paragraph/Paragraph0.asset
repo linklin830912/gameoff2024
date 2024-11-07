@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: Paragraph0
   m_EditorClassIdentifier: 
-  content: Lorem ipsum ipsum ipsum ipsum ipsum
-  font: Serif
-  lineHeight: 0.5
+  content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+  font: Sans
+  lineHeight: 0.3
   maxWidth: 3
   wordSpacing: 0
