@@ -9,8 +9,9 @@ public class ParagraphObject : ScriptableObject
     public string content;
     public string font;
     public float lineHeight;
-    public int maxWidth;
+    public float maxWidth;
     public float wordSpacing;
+    public int colorCode;
 
     // Example of a custom method
     public void UseItem()

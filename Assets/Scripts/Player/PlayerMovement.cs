@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+public enum PlayerMovementEnum { 
+    Left, Right, Up, Down
+}
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement playerMovementInstance;
@@ -30,29 +33,29 @@ public class PlayerMovement : MonoBehaviour
     private void playerMovementUpdate() { 
         Vector2 dir = playerControl.ReadValue<Vector2>();
         if (dir.x > 0)
-        {            
-            if(!isHold || (isHold && count >50 && count%5==0 ))
-                ParagraphsManager.moveToNextObject();
+        {
+            if (!isHold || (isHold && count > 50 && count % 5 == 0))
+                ParagraphsManager.moveToObject(PlayerMovementEnum.Right);
                 isHold = true;
             count ++;
         }
         else if (dir.x < 0)
         {            
             if(!isHold || (isHold && count >50 && count%5==0))
-                ParagraphsManager.moveToPrevObject();
+                ParagraphsManager.moveToObject(PlayerMovementEnum.Left);
                 isHold = true;
             count ++;
         }else if (dir.y < 0)
         {            
             if(!isHold || (isHold && count >50 && count%5==0 ))
-                ParagraphsManager.moveToNextLineObject();
+                ParagraphsManager.moveToObject(PlayerMovementEnum.Down);
                 isHold = true;
             count ++;
         }
         else if (dir.y > 0)
         {            
             if(!isHold || (isHold && count >50 && count%5==0))
-                ParagraphsManager.moveToPrevLineObject();
+                ParagraphsManager.moveToObject(PlayerMovementEnum.Up);
                 isHold = true;
             count ++;
         }

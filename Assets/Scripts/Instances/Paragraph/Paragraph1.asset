@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: Paragraph1
   m_EditorClassIdentifier: 
-  content: Lorem ipsum ipsum ipsum ipsum ipsum
+  content: 'Lorem ipsum dolor sit amet, Sed do eiusmod tempor incididunt ut labore
+    et dolore magna aliqua. '
   font: Sans
-  lineHeight: 1
-  maxWidth: 8
+  lineHeight: 0.2
+  maxWidth: 2
   wordSpacing: 0.05
+  colorCode: 0

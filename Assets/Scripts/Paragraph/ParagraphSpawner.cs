@@ -17,7 +17,7 @@ public class ParagraphSpawner : MonoBehaviour
     internal ParagraphSpawner prevSpawner;
     internal ParagraphSpawner nextSpawner;
   
-    internal void Init()
+    internal void Init(int colorCode)
     {        
         paragraphGeneratorObject = (ParagraphObject)spawnObject;
         Vector3 position = gameObject.transform.position;
@@ -43,7 +43,7 @@ public class ParagraphSpawner : MonoBehaviour
                 GameObject alphabetObject = TextDictionaryGenerator.getFontAlphabet(paragraphGeneratorObject.font, alphabet, gameObject);
                 positionAlphabet(alphabetObject, ref position);
 
-                TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet);
+                TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet, colorCode);
                 textObject.setup(prevObject, prevLineObject, isLineStart);
 
                 if (isLineStart) startLineObject = textObject;
@@ -53,6 +53,7 @@ public class ParagraphSpawner : MonoBehaviour
                 isLineStart = false;
                 endObject = textObject;
             }
+            
         }
         currentObject = startObject;
     }
@@ -122,5 +123,8 @@ public class ParagraphSpawner : MonoBehaviour
             return true;
         }
         return false;
+    }
+    internal int getColorCode() {
+        return ((ParagraphObject)spawnObject).colorCode;
     }
 }

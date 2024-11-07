@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ParagraphsManager : MonoBehaviour
@@ -14,8 +15,10 @@ public class ParagraphsManager : MonoBehaviour
             ParagraphSpawner prevSpawner = null;
             for (int i = 0; i < gameObject.transform.childCount; i++) {
                 GameObject childGameObject = gameObject.transform.GetChild(i).gameObject;
-                ParagraphSpawner paragraphSpawner = childGameObject.GetComponent<ParagraphSpawner>();
-                paragraphSpawner.Init();
+                ParagraphSpawner paragraphSpawner = childGameObject.GetComponent<ParagraphSpawner>();                
+                paragraphSpawner.Init(paragraphSpawner.getColorCode());
+                MaskManager.AddToColorParagraphList(paragraphSpawner.getColorCode(), paragraphSpawner);
+                MaskManager.SetupDepthForColorCode(paragraphSpawner.getColorCode(), paragraphSpawner);
                 if(startSpawner == null)startSpawner = paragraphSpawner;
                 paragraphSpawner.setPrevSpawner(prevSpawner);
                 prevSpawner = paragraphSpawner;
@@ -24,43 +27,18 @@ public class ParagraphsManager : MonoBehaviour
         currentSpawner = startSpawner;
         PlayerMovement.setScale(currentSpawner.gameObject);
         PlayerMovement.setPosition(currentSpawner.getCurrentObject().getCursorPosition());
-    }
-
+    }    
     
-    internal static bool moveToNextObject() {
-        bool hasNext = currentSpawner.nextObject();
-        if (hasNext)
+    internal static bool moveToObject(PlayerMovementEnum movment) {
+        if (checkHaveNext(movment))
         {
             currentTextObject = currentSpawner.getCurrentObject();
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
         }
-        else if (currentSpawner.nextSpawner != null)
+        else if (checkHaveSpawner(movment))
         {
-            currentSpawner = currentSpawner.nextSpawner;
-            currentTextObject = currentSpawner.getCurrentObject();
-            PlayerMovement.setScale(currentSpawner.gameObject);
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
-        }
-        else { 
-            Debug.Log("game complete");
-            return false;
-        }        
-    }
-
-    internal static bool moveToPrevObject() {
-        bool hasPrev = currentSpawner.prevObject();
-        if (hasPrev)
-        {
-            currentTextObject = currentSpawner.getCurrentObject();
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
-        }
-        else if (currentSpawner.prevSpawner != null)
-        {
-            currentSpawner = currentSpawner.prevSpawner;
-            currentTextObject = currentSpawner.getCurrentObject();
+            currentTextObject = getTextObject(movment);
             PlayerMovement.setScale(currentSpawner.gameObject);
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
@@ -68,41 +46,49 @@ public class ParagraphsManager : MonoBehaviour
         else { 
             Debug.Log("back to start");
             return false;
-        }        
-    }
-    internal static bool moveToNextLineObject(){
-        bool hasNext = currentSpawner.nextLineObject();
-        if (hasNext)
-        {
-            currentTextObject = currentSpawner.getCurrentObject();
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
         }
-        else if (currentSpawner.nextSpawner != null) { 
-            currentSpawner = currentSpawner.nextSpawner;
-            currentTextObject = currentSpawner.getClosestObject(currentTextObject, true);
-            PlayerMovement.setScale(currentSpawner.gameObject);
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
-        }
-        return false;
     }
 
-    internal static bool moveToPrevLineObject(){
-        bool hasNext = currentSpawner.prevLineObject();
-        if (hasNext)
-        {
-            currentTextObject = currentSpawner.getCurrentObject();
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
+    private static bool checkHaveNext(PlayerMovementEnum movment) {
+        switch (movment) { 
+            case PlayerMovementEnum.Left:
+                return currentSpawner.prevObject();
+            case PlayerMovementEnum.Right:
+                return currentSpawner.nextObject();
+            case PlayerMovementEnum.Down:
+                return currentSpawner.nextLineObject();
+            default:
+                return currentSpawner.prevLineObject();
         }
-        else if (currentSpawner.prevSpawner != null) { 
-            currentSpawner = currentSpawner.prevSpawner;
-            currentTextObject = currentSpawner.getClosestObject(currentTextObject, false);
-            PlayerMovement.setScale(currentSpawner.gameObject);
-            PlayerMovement.setPosition(currentTextObject.getCursorPosition());
-            return true;
+    }
+
+    private static bool checkHaveSpawner(PlayerMovementEnum movment) {
+        switch (movment) { 
+            case PlayerMovementEnum.Left:
+                return currentSpawner.prevSpawner != null;
+            case PlayerMovementEnum.Right:
+                return currentSpawner.nextSpawner != null;
+            case PlayerMovementEnum.Down:
+                return currentSpawner.nextSpawner != null;
+            default:
+                return currentSpawner.prevSpawner != null;
         }
-        return false;
+    }
+
+    private static TextObject getTextObject(PlayerMovementEnum movment) {
+        switch (movment) { 
+            case PlayerMovementEnum.Left:
+                currentSpawner = currentSpawner.prevSpawner;
+                return currentSpawner.getCurrentObject();
+            case PlayerMovementEnum.Up:
+                currentSpawner = currentSpawner.prevSpawner;
+                return currentSpawner.getClosestObject(currentTextObject, false);
+            case PlayerMovementEnum.Down:
+                currentSpawner = currentSpawner.nextSpawner;
+                return currentSpawner.getClosestObject(currentTextObject, true);
+            default:
+                currentSpawner = currentSpawner.nextSpawner;
+                return currentSpawner.getCurrentObject();
+        }
     }
 }
