@@ -12,58 +12,75 @@ public class TextObject
     internal TextObject prevLineObject;
     internal TextObject nextLineObject;
     internal GameObject value;
+    internal bool isStartLineObject = false;
+    internal bool isEndLineObject = false;
+    internal float fontWidth;
     private string font;
     private string alphabet;
-     private int colorCode;
+    private int colorCode;
 
-    public TextObject(GameObject currentObject, string font, string alphabet, int colorCode) {
+    public TextObject(GameObject currentObject, string font, string alphabet, int colorCode, float fontWidth) {
         this.value = currentObject;
         this.font = font;
         this.alphabet = alphabet;
         this.colorCode = colorCode;
+        this.fontWidth = fontWidth;
         MaskManager.AssignAlphabetColor(colorCode, currentObject);
     }
-    internal void setPrevObject(TextObject prevObject) {
+    internal void setPrevObject(TextObject prevObject, bool isLineStart) {
         this.prevObject = prevObject;
-        if (this.prevObject != null)
+        if (this.prevObject != null){
+            this.prevObject.isEndLineObject = isLineStart; // if it is in the start of line, then its prev should be in the end
             this.prevObject.nextObject = this;
+        }
     }
     internal void setPrevLineObject(TextObject prevLineObj, bool isLineStart) {
 
         if (prevLineObj != null) {
-            if (!isLineStart) {
-                //compare with the left neighbor
-                double dis0 = Math.Abs(this.value.transform.position.x - prevLineObj.value.transform.position.x);
-                double dis1 = 1000;
-                double dis2 = 1000;
-                double dis3 = 1000;
-                double dis4 = 1000;
-                if (prevLineObj.nextObject != null){
-                    dis1 = Math.Abs(this.value.transform.position.x - prevLineObj.nextObject.value.transform.position.x);
-                    if (prevLineObj.nextObject.nextObject != null){
-                        dis3 = Math.Abs(this.value.transform.position.x - prevLineObj.nextObject.nextObject.value.transform.position.x);
-                        if (prevLineObj.nextObject.nextObject.nextObject != null){
-                            dis4 = Math.Abs(this.value.transform.position.x - prevLineObj.nextObject.nextObject.nextObject.value.transform.position.x);
+            if (!isLineStart)
+            {
+                if (!prevLineObj.isEndLineObject && !prevLineObj.isStartLineObject){ 
+                    double minDis = Math.Abs(this.value.transform.position.x - prevLineObj.value.transform.position.x);
+                    TextObject currentPrevObj = prevLineObj;
+                    TextObject targetPrevObj = prevLineObj;
+                    while (true) { 
+                        double dis = Math.Abs(this.value.transform.position.x - currentPrevObj.value.transform.position.x);
+                        if (dis < minDis) {
+                            targetPrevObj = currentPrevObj;
+                            minDis = dis;
                         }
+                        if (currentPrevObj.nextObject != null &&  
+                            Math.Abs(this.value.transform.position.y - currentPrevObj.value.transform.position.y)>0.01)
+                            currentPrevObj = currentPrevObj.nextObject;
+                        else break;
+                        
                     }
+                    prevLineObj = targetPrevObj;
                 }
-                if (prevLineObj.prevObject != null)
-                    dis2 = Math.Abs(this.value.transform.position.x - prevLineObj.prevObject.value.transform.position.x);
 
-                double dis = Math.Min(Math.Min(Math.Min(Math.Min(dis0, dis1), dis2), dis3), dis4);
-                if (dis==dis1)
-                    prevLineObj = prevLineObj.nextObject;
-                else if (dis==dis2)
-                    prevLineObj = prevLineObj.prevObject;
-                else if (dis==dis3)
-                    prevLineObj = prevLineObj.nextObject.nextObject;
-                else if (dis==dis4)
-                    prevLineObj = prevLineObj.nextObject.nextObject.nextObject;
             }
-
+            
             this.prevLineObject = prevLineObj;
-            if (this.prevLineObject != null)
+            if (this.prevLineObject != null){
                 this.prevLineObject.nextLineObject = this;
+                TextObject prevLinePrevObj = this.prevLineObject.prevObject;
+                TextObject beforeThis = this;
+                List<TextObject> unassignNextLineObjects = new List<TextObject>();
+                while (prevLinePrevObj != null) {
+                    if (prevLinePrevObj.nextLineObject == null) {
+                        unassignNextLineObjects.Add(prevLinePrevObj);
+                        prevLinePrevObj = prevLinePrevObj.prevObject;
+                    }else{
+                        beforeThis = prevLinePrevObj.nextLineObject;
+                        break; 
+                    }                   
+                }
+                foreach (var unObj in unassignNextLineObjects) {
+                    double dis0 = Math.Abs(unObj.value.transform.position.x - beforeThis.value.transform.position.x);
+                    double dis1 = Math.Abs(unObj.value.transform.position.x - this.value.transform.position.x);
+                    unObj.nextLineObject = dis0 < dis1 ? beforeThis : this;
+                }
+            }
         }
     }
     internal Vector3 getCursorPosition() {
@@ -73,8 +90,8 @@ public class TextObject
         position.z -= 1;
         return position;
     }
-    internal void setup(TextObject prevObj, TextObject prevLineObj, bool isLineStart) { 
-        this.setPrevObject(prevObj);
+    internal void setup(TextObject prevObj, TextObject prevLineObj, bool isLineStart) {
+        this.setPrevObject(prevObj, isLineStart);
         this.setPrevLineObject(prevLineObj, isLineStart);
     }
 

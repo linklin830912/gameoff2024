@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParagraphSpawner : MonoBehaviour
 {
@@ -29,7 +30,9 @@ public class ParagraphSpawner : MonoBehaviour
             for(int i = 0; i <paragraphGeneratorObject.content.Length; i++) {
                 if(i==0)isLineStart = true;
                 String alphabet = paragraphGeneratorObject.content.Substring(i, 1);
-                if (alphabet.Equals(TextDictionaryGenerator._ENTER) || Math.Abs(gameObject.transform.position.x - position.x) > paragraphGeneratorObject.maxWidth)
+                float offsetX = prevObject != null ? TextDictionaryGenerator.getFontSize(prevObject.value).x:0;
+                if (alphabet.Equals(TextDictionaryGenerator._ENTER) 
+                    || Math.Abs(gameObject.transform.position.x - offsetX - position.x) > paragraphGeneratorObject.maxWidth)
                 {
                     // line break                    
                     position.x = gameObject.transform.position.x;
@@ -41,28 +44,30 @@ public class ParagraphSpawner : MonoBehaviour
                 if (alphabet.Equals(TextDictionaryGenerator._ENTER)) continue;
 
                 GameObject alphabetObject = TextDictionaryGenerator.getFontAlphabet(paragraphGeneratorObject.font, alphabet, gameObject);
-                positionAlphabet(alphabetObject, ref position);
+                float fontWidth = positionAlphabet(alphabetObject, ref position);
 
-                TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet, colorCode);
+                TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet, colorCode, fontWidth);
                 textObject.setup(prevObject, prevLineObject, isLineStart);
 
-                if (isLineStart) startLineObject = textObject;
+                if (isLineStart) {startLineObject = textObject;}
                 if (startObject == null) startObject = textObject;
                 prevLineObject = textObject.prevLineObject;
                 prevObject = textObject;
                 isLineStart = false;
                 endObject = textObject;
+                if (i == paragraphGeneratorObject.content.Length - 1) textObject.isEndLineObject = true;
             }
             
         }
         currentObject = startObject;
     }
-    private void positionAlphabet(GameObject alphabetObject, ref Vector3 position) { 
+    private float positionAlphabet(GameObject alphabetObject, ref Vector3 position) { 
         alphabetObject.SetActive(true);
         float fontWidth =  TextDictionaryGenerator.getFontSize(alphabetObject).x/2;
         position.x += fontWidth+paragraphGeneratorObject.wordSpacing;
         alphabetObject.transform.position = position;
         position.x += fontWidth;
+        return fontWidth;
     }
 
     internal void setPrevSpawner(ParagraphSpawner prevSpawner) { 
@@ -75,55 +80,63 @@ public class ParagraphSpawner : MonoBehaviour
     }
     internal TextObject getClosestObject(TextObject textObject, bool fromStart) {
         TextObject beginAtObject = fromStart ? this.startObject : this.endObject;
-        TextObject closestObject = beginAtObject;
+        TextObject closestObject = null;
         float dis = beginAtObject.getDistance(textObject);
         float currentDis = dis;
         while (beginAtObject != null) {
             currentDis = beginAtObject.getDistance(textObject);
-            if (currentDis < dis) {
+            if (currentDis < dis && MaskMovement.detectValidPlayerMovement(beginAtObject)) {
                 closestObject = beginAtObject;
                 dis = currentDis;
             }
             beginAtObject = fromStart ? beginAtObject.nextObject : beginAtObject.prevObject; 
         }
-        this.currentObject = closestObject;
-        return closestObject;
-    }
-    internal bool nextObject() {
-        if (this.currentObject.nextObject != null)
-        {
-            this.currentObject = this.currentObject.nextObject;
-            return true;
-        }
-        return false;
-    }
-    internal bool prevObject() {
-        if (this.currentObject.prevObject != null)
-        {
-            this.currentObject = this.currentObject.prevObject;
-            return true;
-        }
-        return false;
+        if (closestObject != null)
+            if (Math.Abs(textObject.value.transform.position.x - closestObject.value.transform.position.x) < textObject.fontWidth*2)
+                this.currentObject = closestObject;
+            else return textObject;
+        return this.currentObject;
     }
     
-    internal bool nextLineObject() {
-        if (this.currentObject.nextLineObject != null)
-        {
-            this.currentObject = this.currentObject.nextLineObject;
-            
-            return true;
+    internal TextObject getNextObject(PlayerMovementEnum movement) {
+        switch (movement) { 
+            case PlayerMovementEnum.Right:
+                if(MaskMovement.detectValidPlayerMovement(this.currentObject.nextObject))
+                    this.currentObject = this.currentObject.nextObject;
+                break;
+            case PlayerMovementEnum.Left:
+                if(MaskMovement.detectValidPlayerMovement(this.currentObject.prevObject))
+                    this.currentObject = this.currentObject.prevObject;
+                break;
+            case PlayerMovementEnum.Up:
+                if(MaskMovement.detectValidPlayerMovement(this.currentObject.prevLineObject))
+                    this.currentObject = this.currentObject.prevLineObject;
+                break;
+            case PlayerMovementEnum.Down:
+                if(MaskMovement.detectValidPlayerMovement(this.currentObject.nextLineObject))
+                    this.currentObject = this.currentObject.nextLineObject;
+                break;
+            default:
+                break;
         }
-        return false;
+        return this.currentObject;
     }
 
-    internal bool prevLineObject() {
-        if (this.currentObject.prevLineObject != null)
-        {
-            this.currentObject = this.currentObject.prevLineObject;
-            return true;
+    internal bool checkNextObject(PlayerMovementEnum movement) {
+        switch (movement) { 
+            case PlayerMovementEnum.Right:
+                return this.currentObject.nextObject != null;
+            case PlayerMovementEnum.Left:
+                return this.currentObject.prevObject != null;
+            case PlayerMovementEnum.Up:
+                return this.currentObject.prevLineObject != null;
+            case PlayerMovementEnum.Down:
+                return this.currentObject.nextLineObject != null;
+            default:
+                return false;
         }
-        return false;
     }
+    
     internal int getColorCode() {
         return ((ParagraphObject)spawnObject).colorCode;
     }

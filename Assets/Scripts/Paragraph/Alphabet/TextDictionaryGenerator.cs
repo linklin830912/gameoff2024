@@ -46,10 +46,10 @@ public class TextDictionaryGenerator : MonoBehaviour
                 gEnter.SetActive(false);
                 GameObject gComma = textDictionaryObjects[i].transform.Find(COMMA).gameObject;
                 alphabetDictionary.Add(COMMA, gComma);
-                gEnter.SetActive(false);
+                gComma.SetActive(false);
                 GameObject gPeriod = textDictionaryObjects[i].transform.Find(PERIOD).gameObject;
                 alphabetDictionary.Add(PERIOD, gPeriod);
-                gEnter.SetActive(false);
+                gPeriod.SetActive(false);
 
                 fontDictionary[textDictionaryObjects[i].name] = alphabetDictionary;
             }

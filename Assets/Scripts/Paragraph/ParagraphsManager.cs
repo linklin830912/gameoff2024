@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParagraphsManager : MonoBehaviour
 {
@@ -29,16 +30,17 @@ public class ParagraphsManager : MonoBehaviour
         PlayerMovement.setPosition(currentSpawner.getCurrentObject().getCursorPosition());
     }    
     
-    internal static bool moveToObject(PlayerMovementEnum movment) {
-        if (checkHaveNext(movment))
+    internal static bool moveToObject(PlayerMovementEnum movement) {
+        if (currentSpawner.checkNextObject(movement))
         {
-            currentTextObject = currentSpawner.getCurrentObject();
+            currentTextObject = currentSpawner.getNextObject(movement);
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
         }
-        else if (checkHaveSpawner(movment))
+        else if (checkHaveSpawner(movement))
         {
-            currentTextObject = getTextObject(movment);
+            currentTextObject = getTextObject(movement);
+            if(currentTextObject==null)return false;
             PlayerMovement.setScale(currentSpawner.gameObject);
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
@@ -46,19 +48,6 @@ public class ParagraphsManager : MonoBehaviour
         else { 
             Debug.Log("back to start");
             return false;
-        }
-    }
-
-    private static bool checkHaveNext(PlayerMovementEnum movment) {
-        switch (movment) { 
-            case PlayerMovementEnum.Left:
-                return currentSpawner.prevObject();
-            case PlayerMovementEnum.Right:
-                return currentSpawner.nextObject();
-            case PlayerMovementEnum.Down:
-                return currentSpawner.nextLineObject();
-            default:
-                return currentSpawner.prevLineObject();
         }
     }
 
@@ -70,8 +59,10 @@ public class ParagraphsManager : MonoBehaviour
                 return currentSpawner.nextSpawner != null;
             case PlayerMovementEnum.Down:
                 return currentSpawner.nextSpawner != null;
-            default:
+            case PlayerMovementEnum.Up:
                 return currentSpawner.prevSpawner != null;
+            default:
+                return false;
         }
     }
 
@@ -82,10 +73,14 @@ public class ParagraphsManager : MonoBehaviour
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Up:
                 currentSpawner = currentSpawner.prevSpawner;
-                return currentSpawner.getClosestObject(currentTextObject, false);
+                TextObject textObj = currentSpawner.getClosestObject(currentTextObject, false);
+                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.nextSpawner;
+                return textObj;
             case PlayerMovementEnum.Down:
                 currentSpawner = currentSpawner.nextSpawner;
-                return currentSpawner.getClosestObject(currentTextObject, true);
+                textObj = currentSpawner.getClosestObject(currentTextObject, false);
+                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.prevSpawner;
+                return textObj;
             default:
                 currentSpawner = currentSpawner.nextSpawner;
                 return currentSpawner.getCurrentObject();
