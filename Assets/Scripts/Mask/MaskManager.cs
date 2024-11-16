@@ -56,7 +56,8 @@ public class MaskManager : MonoBehaviour
         currentMaskIndex = selectIndex;
 
         foreach (var pair in colorParagraphList) {
-            if (pair.Key == selectIndex && pair.Key != -1) {
+            if (pair.Key == selectIndex && pair.Key != -1)
+            {
                 List<ParagraphSpawner> list = pair.Value;
                 foreach (var paragraph in list)
                 {
@@ -64,13 +65,25 @@ public class MaskManager : MonoBehaviour
                     pos.z = LEVEL_DISPLAY;
                     paragraph.gameObject.transform.position = pos;
                 }
-               
-            } else if (pair.Key != selectIndex && pair.Key != -1) { 
+
+            }
+            else if (pair.Key != selectIndex && pair.Key != -1)
+            {
                 List<ParagraphSpawner> list = pair.Value;
                 foreach (var paragraph in list)
                 {
                     Vector3 pos = paragraph.gameObject.transform.position;
                     pos.z = LEVEL_HIDDEN;
+                    paragraph.gameObject.transform.position = pos;
+                }
+            }
+            else if (pair.Key == -1)
+            {
+                List<ParagraphSpawner> list = pair.Value;
+                foreach (var paragraph in list)
+                {
+                    Vector3 pos = paragraph.gameObject.transform.position;
+                    pos.z = LEVEL_STATIC;
                     paragraph.gameObject.transform.position = pos;
                 }
             }

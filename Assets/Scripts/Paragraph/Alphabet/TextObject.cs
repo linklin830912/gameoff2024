@@ -17,7 +17,7 @@ public class TextObject
     internal float fontWidth;
     private string font;
     private string alphabet;
-    private int colorCode;
+    internal int colorCode;
 
     public TextObject(GameObject currentObject, string font, string alphabet, int colorCode, float fontWidth) {
         this.value = currentObject;
@@ -101,6 +101,10 @@ public class TextObject
         Vector3 pos1 = textObject.value.transform.position;
         pos1.z = 0;
         return Vector3.Distance(pos0, pos1);
+    }
+    internal void setToStaticColorCode() {
+        this.colorCode = -1;
+        MaskManager.AssignAlphabetColor(this.colorCode, this.value);
     }
     
 }

@@ -34,13 +34,14 @@ public class ParagraphsManager : MonoBehaviour
         if (currentSpawner.checkNextObject(movement))
         {
             currentTextObject = currentSpawner.getNextObject(movement);
+            currentTextObject.setToStaticColorCode();
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
         }
         else if (checkHaveSpawner(movement))
         {
             currentTextObject = getTextObject(movement);
-            if(currentTextObject==null)return false;
+            currentTextObject.setToStaticColorCode();
             PlayerMovement.setScale(currentSpawner.gameObject);
             PlayerMovement.setPosition(currentTextObject.getCursorPosition());
             return true;
@@ -70,20 +71,36 @@ public class ParagraphsManager : MonoBehaviour
         switch (movment) { 
             case PlayerMovementEnum.Left:
                 currentSpawner = currentSpawner.prevSpawner;
+                bool isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                if (!isValidMove) currentSpawner = currentSpawner.nextSpawner;
+                return currentSpawner.getCurrentObject();
+            case PlayerMovementEnum.Right:
+                currentSpawner = currentSpawner.nextSpawner;
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                if (!isValidMove) currentSpawner = currentSpawner.prevSpawner;
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Up:
                 currentSpawner = currentSpawner.prevSpawner;
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                if (!isValidMove) {
+                    currentSpawner = currentSpawner.nextSpawner;
+                    return currentTextObject;
+                }
                 TextObject textObj = currentSpawner.getClosestObject(currentTextObject, false);
                 if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.nextSpawner;
                 return textObj;
             case PlayerMovementEnum.Down:
                 currentSpawner = currentSpawner.nextSpawner;
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                if (!isValidMove) {
+                    currentSpawner = currentSpawner.prevSpawner;
+                    return currentTextObject;
+                }
                 textObj = currentSpawner.getClosestObject(currentTextObject, false);
                 if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.prevSpawner;
-                return textObj;
+                return textObj;            
             default:
-                currentSpawner = currentSpawner.nextSpawner;
-                return currentSpawner.getCurrentObject();
+                return null;
         }
     }
 }

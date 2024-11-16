@@ -26,13 +26,13 @@ public class MaskMovement : MonoBehaviour
             
     }
     internal static bool detectValidPlayerMovement(TextObject textObject) {
-        if (currentMask == null) return true;
+        if (textObject.colorCode == -1) return true;
+        if (currentMask == null) return false;
         Vector3 pos0 = textObject.value.transform.position;
         Vector3 pos1 = currentMask.transform.position;
         pos0.z = 0;
         pos1.z = 0;
         float dis = Vector3.Distance(pos0, pos1);
-        Debug.Log(dis);
         return dis <= validRadius;
     }
 }
