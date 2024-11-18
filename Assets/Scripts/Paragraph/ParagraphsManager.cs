@@ -71,17 +71,20 @@ public class ParagraphsManager : MonoBehaviour
         switch (movment) { 
             case PlayerMovementEnum.Left:
                 currentSpawner = currentSpawner.prevSpawner;
-                bool isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                bool isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
+                    && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) currentSpawner = currentSpawner.nextSpawner;
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Right:
                 currentSpawner = currentSpawner.nextSpawner;
-                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
+                    && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) currentSpawner = currentSpawner.prevSpawner;
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Up:
                 currentSpawner = currentSpawner.prevSpawner;
-                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
+                    && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) {
                     currentSpawner = currentSpawner.nextSpawner;
                     return currentTextObject;
@@ -91,7 +94,8 @@ public class ParagraphsManager : MonoBehaviour
                 return textObj;
             case PlayerMovementEnum.Down:
                 currentSpawner = currentSpawner.nextSpawner;
-                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject());
+                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
+                    && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) {
                     currentSpawner = currentSpawner.prevSpawner;
                     return currentTextObject;

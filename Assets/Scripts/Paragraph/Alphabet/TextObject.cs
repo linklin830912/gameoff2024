@@ -16,7 +16,7 @@ public class TextObject
     internal bool isEndLineObject = false;
     internal float fontWidth;
     private string font;
-    private string alphabet;
+    internal string alphabet;
     internal int colorCode;
 
     public TextObject(GameObject currentObject, string font, string alphabet, int colorCode, float fontWidth) {

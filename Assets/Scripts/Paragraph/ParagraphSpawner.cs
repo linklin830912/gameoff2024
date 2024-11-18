@@ -102,19 +102,27 @@ public class ParagraphSpawner : MonoBehaviour
         switch (movement) { 
             case PlayerMovementEnum.Right:
                 if(MaskMovement.detectValidPlayerMovement(this.currentObject.nextObject))
-                    this.currentObject = this.currentObject.nextObject;
+                    if((this.currentObject.colorCode ==-1 && this.currentObject.nextObject.colorCode ==-1) 
+                        || PassageManager.checkValidPassage(this.currentObject.nextObject))
+                        this.currentObject = this.currentObject.nextObject;
                 break;
             case PlayerMovementEnum.Left:
                 if(MaskMovement.detectValidPlayerMovement(this.currentObject.prevObject))
-                    this.currentObject = this.currentObject.prevObject;
+                    if((this.currentObject.colorCode ==-1 && this.currentObject.prevObject.colorCode ==-1) 
+                        || PassageManager.checkValidPassage(this.currentObject.prevObject))
+                        this.currentObject = this.currentObject.prevObject;
                 break;
             case PlayerMovementEnum.Up:
                 if(MaskMovement.detectValidPlayerMovement(this.currentObject.prevLineObject))
-                    this.currentObject = this.currentObject.prevLineObject;
+                    if((this.currentObject.colorCode ==-1 && this.currentObject.prevLineObject.colorCode ==-1) 
+                        || PassageManager.checkValidPassage(this.currentObject.prevLineObject))
+                        this.currentObject = this.currentObject.prevLineObject;
                 break;
             case PlayerMovementEnum.Down:
                 if(MaskMovement.detectValidPlayerMovement(this.currentObject.nextLineObject))
-                    this.currentObject = this.currentObject.nextLineObject;
+                    if((this.currentObject.colorCode ==-1 && this.currentObject.nextLineObject.colorCode ==-1) 
+                        || PassageManager.checkValidPassage(this.currentObject.nextLineObject))
+                        this.currentObject = this.currentObject.nextLineObject;
                 break;
             default:
                 break;
