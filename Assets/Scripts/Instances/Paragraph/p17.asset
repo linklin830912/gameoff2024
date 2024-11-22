@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
+  m_Name: p17
+  m_EditorClassIdentifier: 
+  content: "doesn\u2019t cancel out being shady, but sure, keep trying.\r\nThen Sophia
+    made sure to let everyone know, \u201CI\u2019m just naturally confident without\r"
+  font: Sans
+  lineHeight: 0.5
+  maxWidth: 2
+  wordSpacing: 0.05
+  colorCode: 0
+  isReversedX: 0
+  isReversedY: 0

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
-  m_Name: ParagraphSpawnerDefault0
+  m_Name: p11
   m_EditorClassIdentifier: 
-  content: 'Dear Diary,
-
-    Today was a journey. Where do I even begin? First, Amanda'
-  font: Serif
+  content: "You\u2019ve been talking so much, even the group chat is praying for
+    a power outage.\r\nLucas, of course, posted another\r"
+  font: Sans
   lineHeight: 0.5
-  maxWidth: 6
-  wordSpacing: 0
-  colorCode: -1
+  maxWidth: 2
+  wordSpacing: 0.05
+  colorCode: 0
+  isReversedX: 0
+  isReversedY: 0

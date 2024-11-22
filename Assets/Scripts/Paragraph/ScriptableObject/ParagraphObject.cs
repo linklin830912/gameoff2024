@@ -12,6 +12,8 @@ public class ParagraphObject : ScriptableObject
     public float maxWidth;
     public float wordSpacing;
     public int colorCode;
+    public bool isReversedX;
+    public bool isReversedY;
 
     // Example of a custom method
     public void UseItem()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PassageManager : MonoBehaviour
 {
     internal static PassageManager passageManagerInstance;
-    private static string PASSAGE = "passage";
+    private static string PASSAGE = "greasyshampoo";
     private static string NEXT = "next";
     private static string currentPassage = "";
     void Awake()
@@ -28,13 +28,13 @@ public class PassageManager : MonoBehaviour
             }
             else if (newPassage.Equals(NEXT)) {
 
-                currentPassage = "";
+                //currentPassage = "";
 
                 return false;
             }
              else if (newPassage.Equals(PASSAGE)) {
 
-                currentPassage = "";
+                //currentPassage = "";
 
                 return true;
             }

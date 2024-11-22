@@ -98,17 +98,17 @@ public class ParagraphsManager : MonoBehaviour
                 return textObj;
             case PlayerMovementEnum.Down:
                 currentSpawner = currentSpawner.getCurrentNextSpawner();
-                isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
-                    && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
+                TextObject closestTextObj = currentSpawner.getClosestObject(currentTextObject, false);
+                isValidMove = MaskMovement.detectValidPlayerMovement(closestTextObj)
+                    && PassageManager.checkValidPassage(closestTextObj);
                 if (!isValidMove) {
                     currentSpawner = currentSpawner.getCurrentPrevSpawner();
                     return currentTextObject;
                 }
                 else if(currentColorCode!=MaskManager.STATIC_COLOR_CODE 
                     && currentSpawner.getColorCode()==MaskManager.STATIC_COLOR_CODE)MaskManager.setToColor(-1);
-                textObj = currentSpawner.getClosestObject(currentTextObject, false);
-                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.getCurrentPrevSpawner();
-                return textObj;            
+                if(currentTextObject.Equals(closestTextObj)) currentSpawner = currentSpawner.getCurrentPrevSpawner();
+                return closestTextObj;            
             default:
                 return null;
         }

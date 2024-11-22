@@ -80,7 +80,13 @@ public class TextDictionaryGenerator : MonoBehaviour
         else if (alphabet.Equals(_QUESTION)) alphabet = QUESTION; 
         else if (alphabet.Equals(_SINGLE_QUOTE)) alphabet = SINGLE_QUOTE;
         else if (alphabet.Equals(_DOUBLE_QUOTE)) alphabet = DOUBLE_QUOTE;
-        return Instantiate(fontDictionary[font][alphabet], parent.transform);
+        try { 
+            return Instantiate(fontDictionary[font][alphabet], parent.transform);
+        }
+        catch (KeyNotFoundException) {
+            return null;
+        }
+        
     }
     internal static Vector2 getFontSize(GameObject gameObject) {
         return gameObject.GetComponent<BoxCollider>().bounds.size;

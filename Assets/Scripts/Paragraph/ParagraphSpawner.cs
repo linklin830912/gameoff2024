@@ -38,12 +38,19 @@ public class ParagraphSpawner : MonoBehaviour
                 if(i==0)isLineStart = true;
                 String alphabet = paragraphGeneratorObject.content.Substring(i, 1);
                 float offsetX = prevObject != null ? TextDictionaryGenerator.getFontSize(prevObject.value).x:0;
-                if (alphabet.Equals(TextDictionaryGenerator._ENTER) 
+                if (alphabet.Equals(TextDictionaryGenerator._ENTER)
                     || Math.Abs(gameObject.transform.position.x - offsetX - position.x) > paragraphGeneratorObject.maxWidth)
                 {
-                    // line break                    
+                    // line break               
                     position.x = gameObject.transform.position.x;
-                    position.y -= paragraphGeneratorObject.lineHeight;
+                    if (paragraphGeneratorObject.isReversedY)
+                    {
+                        position.y += paragraphGeneratorObject.lineHeight;
+                    }
+                    else { 
+                        position.y -= paragraphGeneratorObject.lineHeight;
+                    }
+                    
                     prevLineObject = startLineObject;
                     isLineStart = true;
                     if (alphabet.Equals(TextDictionaryGenerator._SPACE)) continue;
@@ -51,6 +58,7 @@ public class ParagraphSpawner : MonoBehaviour
                 if (alphabet.Equals(TextDictionaryGenerator._ENTER)) continue;
 
                 GameObject alphabetObject = TextDictionaryGenerator.getFontAlphabet(paragraphGeneratorObject.font, alphabet, gameObject);
+                if (alphabetObject==null) continue;
                 float fontWidth = positionAlphabet(alphabetObject, ref position);
 
                 TextObject textObject = new TextObject(alphabetObject, paragraphGeneratorObject.font, alphabet, colorCode, fontWidth);
@@ -87,15 +95,15 @@ public class ParagraphSpawner : MonoBehaviour
         return fontWidth;
     }
 
-    // internal void addPrevSpawner(ParagraphSpawner prevSpawner) { 
-    //     this.prevSpawner = prevSpawner;
-    //     if(this.prevSpawner != null)
-    //         this.prevSpawner.nextSpawner = this;
-    // }
+
     internal TextObject getCurrentObject() {
         return this.currentObject;
     }
     internal TextObject getClosestObject(TextObject textObject, bool fromStart) {
+        float disSt = Math.Abs(textObject.value.transform.position.y - this.startObject.value.transform.position.y);
+        float disEd = Math.Abs(textObject.value.transform.position.y - this.endObject.value.transform.position.y);
+        fromStart = disSt <= disEd;
+
         TextObject beginAtObject = fromStart ? this.startObject : this.endObject;
         TextObject closestObject = null;
         float dis = beginAtObject.getDistance(textObject);

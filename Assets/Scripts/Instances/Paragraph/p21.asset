@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
+  m_Name: p21
+  m_EditorClassIdentifier: 
+  content: "\u201D by biking everywhere. Chase, we all know you don\u2019t have a
+    car. You\u2019re not saving the environment, you\u2019re just broke.\r\nHonestly,
+    Diary, it\u2019s exhausting being surrounded by these people. How am I the only
+    one here with even a hint of\r"
+  font: Sans
+  lineHeight: 0.5
+  maxWidth: 2
+  wordSpacing: 0.05
+  colorCode: 0
+  isReversedX: 0
+  isReversedY: 0
