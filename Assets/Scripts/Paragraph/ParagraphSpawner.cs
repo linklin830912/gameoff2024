@@ -14,13 +14,20 @@ public class ParagraphSpawner : MonoBehaviour
     private TextObject startObject;
     private TextObject endObject;
     private TextObject currentObject;
+    private int colorCode;
     
-    internal ParagraphSpawner prevSpawner;
-    internal ParagraphSpawner nextSpawner;
-  
-    internal void Init(int colorCode)
-    {        
+    // internal ParagraphSpawner prevSpawner;// remove
+    // internal ParagraphSpawner nextSpawner;// remove
+    private Dictionary<int, ParagraphSpawner> nextSpawners;
+    private Dictionary<int, ParagraphSpawner> prevSpawners;
+    [SerializeField]
+    private List<GameObject> prevSpawnerObjects;
+    
+    internal void Init()
+    {
         paragraphGeneratorObject = (ParagraphObject)spawnObject;
+        colorCode = getColorCode();
+        setupPrevNextSpawner();
         Vector3 position = gameObject.transform.position;
         TextObject prevObject = null;
         TextObject startLineObject = null;
@@ -61,6 +68,16 @@ public class ParagraphSpawner : MonoBehaviour
         }
         currentObject = startObject;
     }
+    private void setupPrevNextSpawner() {
+        this.prevSpawners = new Dictionary<int, ParagraphSpawner>();
+        this.nextSpawners = new Dictionary<int, ParagraphSpawner>();
+        foreach (var prevSpawnerObj in prevSpawnerObjects) {
+            ParagraphSpawner prevSpawner = prevSpawnerObj.GetComponent<ParagraphSpawner>();
+
+            this.prevSpawners.Add(prevSpawner.colorCode, prevSpawner);
+            prevSpawner.nextSpawners.Add(this.colorCode, this);
+        }
+    }
     private float positionAlphabet(GameObject alphabetObject, ref Vector3 position) { 
         alphabetObject.SetActive(true);
         float fontWidth =  TextDictionaryGenerator.getFontSize(alphabetObject).x/2;
@@ -70,11 +87,11 @@ public class ParagraphSpawner : MonoBehaviour
         return fontWidth;
     }
 
-    internal void setPrevSpawner(ParagraphSpawner prevSpawner) { 
-        this.prevSpawner = prevSpawner;
-        if(this.prevSpawner != null)
-            this.prevSpawner.nextSpawner = this;
-    }
+    // internal void addPrevSpawner(ParagraphSpawner prevSpawner) { 
+    //     this.prevSpawner = prevSpawner;
+    //     if(this.prevSpawner != null)
+    //         this.prevSpawner.nextSpawner = this;
+    // }
     internal TextObject getCurrentObject() {
         return this.currentObject;
     }
@@ -147,5 +164,15 @@ public class ParagraphSpawner : MonoBehaviour
     
     internal int getColorCode() {
         return ((ParagraphObject)spawnObject).colorCode;
+    }
+    internal ParagraphSpawner getCurrentPrevSpawner() {
+        if (prevSpawners.GetValueOrDefault(MaskManager.currentMaskIndex) != null)
+            return prevSpawners.GetValueOrDefault(MaskManager.currentMaskIndex);
+        return prevSpawners.GetValueOrDefault(MaskManager.STATIC_COLOR_CODE);
+    }
+    internal ParagraphSpawner getCurrentNextSpawner() { 
+        if (nextSpawners.GetValueOrDefault(MaskManager.currentMaskIndex) != null)
+            return nextSpawners.GetValueOrDefault(MaskManager.currentMaskIndex);
+        return nextSpawners.GetValueOrDefault(MaskManager.STATIC_COLOR_CODE);        
     }
 }

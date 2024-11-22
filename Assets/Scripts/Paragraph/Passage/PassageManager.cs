@@ -6,6 +6,7 @@ public class PassageManager : MonoBehaviour
 {
     internal static PassageManager passageManagerInstance;
     private static string PASSAGE = "passage";
+    private static string NEXT = "next";
     private static string currentPassage = "";
     void Awake()
     {
@@ -15,15 +16,16 @@ public class PassageManager : MonoBehaviour
         if (textObject.colorCode != MaskManager.STATIC_COLOR_CODE)
         {
             string newPassage = currentPassage + textObject.alphabet;
-            if (newPassage.Equals(PASSAGE.Substring(0, newPassage.Length)))
+            if (PASSAGE.Length >= newPassage.Length && newPassage.Equals(PASSAGE.Substring(0, newPassage.Length)))
             {
                 currentPassage = newPassage;
                 return true;
             }
+            else if (PASSAGE.Length >= newPassage.Length && !newPassage.Equals(PASSAGE.Substring(0, newPassage.Length))) { 
+                return false;
+            }
+            else if (PASSAGE.Length < newPassage.Length) { return false; }
         }
-        else { 
-            if(currentPassage.Equals(PASSAGE))return true;
-        }
-        return false;
+        return true;
     }
 }

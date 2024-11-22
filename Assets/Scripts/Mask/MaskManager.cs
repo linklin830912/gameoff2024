@@ -7,18 +7,20 @@ using UnityEngine;
 public class MaskManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] allMasks;
+    private GameObject[] masks;
+    private static GameObject[] allMasks;
     internal static int STATIC_COLOR_CODE = -1;
     private static int LEVEL_STATIC = 0;
     private static int LEVEL_DISPLAY = 0;
     private static int LEVEL_HIDDEN = 10;
     internal static MaskManager maskManagerInstance;
-    private int currentMaskIndex = -1;
+    internal static int currentMaskIndex = -1;
     internal static Dictionary<int, List<ParagraphSpawner>> colorParagraphList;
     void Awake() {
         if (maskManagerInstance == null){
              maskManagerInstance = this;
              colorParagraphList = new Dictionary<int, List<ParagraphSpawner>>();
+            allMasks = masks;
         }
     }
     void Start() { 
@@ -50,6 +52,9 @@ public class MaskManager : MonoBehaviour
     }
 
     public void OnMaskSelected(int selectIndex) {
+        setToColor(selectIndex);
+    }
+    internal static void setToColor(int selectIndex) {
         if(currentMaskIndex!=-1) allMasks[currentMaskIndex].SetActive(false);        
         if(selectIndex!=-1)allMasks[selectIndex].SetActive(true);
         MaskMovement.setMask(selectIndex==-1 ? null: allMasks[selectIndex]);

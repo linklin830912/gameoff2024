@@ -13,16 +13,13 @@ public class ParagraphsManager : MonoBehaviour
     void Start() {
         if (paragraphsManagerInstance == null){
             paragraphsManagerInstance = this;
-            ParagraphSpawner prevSpawner = null;
             for (int i = 0; i < gameObject.transform.childCount; i++) {
                 GameObject childGameObject = gameObject.transform.GetChild(i).gameObject;
                 ParagraphSpawner paragraphSpawner = childGameObject.GetComponent<ParagraphSpawner>();                
-                paragraphSpawner.Init(paragraphSpawner.getColorCode());
+                paragraphSpawner.Init();
                 MaskManager.AddToColorParagraphList(paragraphSpawner.getColorCode(), paragraphSpawner);
                 MaskManager.SetupDepthForColorCode(paragraphSpawner.getColorCode(), paragraphSpawner);
                 if(startSpawner == null)startSpawner = paragraphSpawner;
-                paragraphSpawner.setPrevSpawner(prevSpawner);
-                prevSpawner = paragraphSpawner;
             }
         }
         currentSpawner = startSpawner;
@@ -55,53 +52,62 @@ public class ParagraphsManager : MonoBehaviour
     private static bool checkHaveSpawner(PlayerMovementEnum movment) {
         switch (movment) { 
             case PlayerMovementEnum.Left:
-                return currentSpawner.prevSpawner != null;
+                return currentSpawner.getCurrentPrevSpawner() != null;
             case PlayerMovementEnum.Right:
-                return currentSpawner.nextSpawner != null;
+                return currentSpawner.getCurrentNextSpawner() != null;
             case PlayerMovementEnum.Down:
-                return currentSpawner.nextSpawner != null;
+                return currentSpawner.getCurrentNextSpawner() != null;
             case PlayerMovementEnum.Up:
-                return currentSpawner.prevSpawner != null;
+                return currentSpawner.getCurrentPrevSpawner() != null;
             default:
                 return false;
         }
     }
 
     private static TextObject getTextObject(PlayerMovementEnum movment) {
+        int currentColorCode = currentSpawner.getColorCode();
         switch (movment) { 
-            case PlayerMovementEnum.Left:
-                currentSpawner = currentSpawner.prevSpawner;
+            case PlayerMovementEnum.Left:                
+                currentSpawner = currentSpawner.getCurrentPrevSpawner();
                 bool isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
                     && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
-                if (!isValidMove) currentSpawner = currentSpawner.nextSpawner;
+                if (!isValidMove) currentSpawner = currentSpawner.getCurrentNextSpawner();
+                else if(currentColorCode!=MaskManager.STATIC_COLOR_CODE 
+                    && currentSpawner.getColorCode()==MaskManager.STATIC_COLOR_CODE)MaskManager.setToColor(-1);
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Right:
-                currentSpawner = currentSpawner.nextSpawner;
+                currentSpawner = currentSpawner.getCurrentNextSpawner();
                 isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
                     && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
-                if (!isValidMove) currentSpawner = currentSpawner.prevSpawner;
+                if (!isValidMove) currentSpawner = currentSpawner.getCurrentPrevSpawner();
+                else if(currentColorCode!=MaskManager.STATIC_COLOR_CODE 
+                    && currentSpawner.getColorCode()==MaskManager.STATIC_COLOR_CODE)MaskManager.setToColor(-1);
                 return currentSpawner.getCurrentObject();
             case PlayerMovementEnum.Up:
-                currentSpawner = currentSpawner.prevSpawner;
+                currentSpawner = currentSpawner.getCurrentPrevSpawner();
                 isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
                     && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) {
-                    currentSpawner = currentSpawner.nextSpawner;
+                    currentSpawner = currentSpawner.getCurrentNextSpawner();
                     return currentTextObject;
                 }
+                else if(currentColorCode!=MaskManager.STATIC_COLOR_CODE 
+                    && currentSpawner.getColorCode()==MaskManager.STATIC_COLOR_CODE)MaskManager.setToColor(-1);
                 TextObject textObj = currentSpawner.getClosestObject(currentTextObject, false);
-                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.nextSpawner;
+                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.getCurrentNextSpawner();
                 return textObj;
             case PlayerMovementEnum.Down:
-                currentSpawner = currentSpawner.nextSpawner;
+                currentSpawner = currentSpawner.getCurrentNextSpawner();
                 isValidMove = MaskMovement.detectValidPlayerMovement(currentSpawner.getCurrentObject())
                     && PassageManager.checkValidPassage(currentSpawner.getCurrentObject());
                 if (!isValidMove) {
-                    currentSpawner = currentSpawner.prevSpawner;
+                    currentSpawner = currentSpawner.getCurrentPrevSpawner();
                     return currentTextObject;
                 }
+                else if(currentColorCode!=MaskManager.STATIC_COLOR_CODE 
+                    && currentSpawner.getColorCode()==MaskManager.STATIC_COLOR_CODE)MaskManager.setToColor(-1);
                 textObj = currentSpawner.getClosestObject(currentTextObject, false);
-                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.prevSpawner;
+                if(currentTextObject.Equals(textObj)) currentSpawner = currentSpawner.getCurrentPrevSpawner();
                 return textObj;            
             default:
                 return null;
