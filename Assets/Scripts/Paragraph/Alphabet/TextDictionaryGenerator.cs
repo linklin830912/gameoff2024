@@ -13,6 +13,12 @@ public class TextDictionaryGenerator : MonoBehaviour
     public static string _SPACE = " ";
     private static string ENTER = "enter";
     public static string _ENTER = "\n";
+    private static string QUESTION = "question";
+    public static string _QUESTION = "?";
+    private static string SINGLE_QUOTE = "squote";
+    public static string _SINGLE_QUOTE = "\'";
+    private static string DOUBLE_QUOTE = "dquote";
+    public static string _DOUBLE_QUOTE = "\"";
 
     [SerializeField]
     private GameObject[] textDictionaryObjects;
@@ -51,6 +57,16 @@ public class TextDictionaryGenerator : MonoBehaviour
                 alphabetDictionary.Add(PERIOD, gPeriod);
                 gPeriod.SetActive(false);
 
+                GameObject gQuestion = textDictionaryObjects[i].transform.Find(QUESTION).gameObject;
+                alphabetDictionary.Add(QUESTION, gQuestion );
+                gQuestion.SetActive(false);
+                GameObject gSquote = textDictionaryObjects[i].transform.Find(SINGLE_QUOTE).gameObject;
+                alphabetDictionary.Add(SINGLE_QUOTE, gSquote );
+                gSquote.SetActive(false);
+                GameObject gDquote = textDictionaryObjects[i].transform.Find(DOUBLE_QUOTE).gameObject;
+                alphabetDictionary.Add(DOUBLE_QUOTE, gDquote );
+                gDquote.SetActive(false);
+
                 fontDictionary[textDictionaryObjects[i].name] = alphabetDictionary;
             }
             
@@ -59,8 +75,11 @@ public class TextDictionaryGenerator : MonoBehaviour
 
     internal static GameObject getFontAlphabet(string font, string alphabet, GameObject parent) {
         if (alphabet.Equals(_SPACE)) alphabet = SPACE; 
-        if (alphabet.Equals(_COMMA)) alphabet = COMMA;  
-        if (alphabet.Equals(_PERIOD)) alphabet = PERIOD; 
+        else if (alphabet.Equals(_COMMA)) alphabet = COMMA;  
+        else if (alphabet.Equals(_PERIOD)) alphabet = PERIOD; 
+        else if (alphabet.Equals(_QUESTION)) alphabet = QUESTION; 
+        else if (alphabet.Equals(_SINGLE_QUOTE)) alphabet = SINGLE_QUOTE;
+        else if (alphabet.Equals(_DOUBLE_QUOTE)) alphabet = DOUBLE_QUOTE;
         return Instantiate(fontDictionary[font][alphabet], parent.transform);
     }
     internal static Vector2 getFontSize(GameObject gameObject) {

@@ -16,12 +16,29 @@ public class PassageManager : MonoBehaviour
         if (textObject.colorCode != MaskManager.STATIC_COLOR_CODE)
         {
             string newPassage = currentPassage + textObject.alphabet;
-            if (PASSAGE.Length >= newPassage.Length && newPassage.Equals(PASSAGE.Substring(0, newPassage.Length)))
+            if (PASSAGE.Length > newPassage.Length && newPassage.Equals(PASSAGE.Substring(0, newPassage.Length)))
             {
                 currentPassage = newPassage;
                 return true;
             }
-            else if (PASSAGE.Length >= newPassage.Length && !newPassage.Equals(PASSAGE.Substring(0, newPassage.Length))) { 
+            else if (NEXT.Length > newPassage.Length && newPassage.Equals(NEXT.Substring(0, newPassage.Length)))
+            {
+                currentPassage = newPassage;
+                return true;
+            }
+            else if (newPassage.Equals(NEXT)) {
+
+                currentPassage = "";
+
+                return false;
+            }
+             else if (newPassage.Equals(PASSAGE)) {
+
+                currentPassage = "";
+
+                return true;
+            }
+            else if (PASSAGE.Length >= newPassage.Length && !newPassage.Equals(PASSAGE.Substring(0, newPassage.Length))) {
                 return false;
             }
             else if (PASSAGE.Length < newPassage.Length) { return false; }
