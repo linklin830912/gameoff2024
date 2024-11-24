@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
-  m_Name: p10
+  m_Name: p24
   m_EditorClassIdentifier: 
-  content: ne enim auc minim erosam, quici nos miuen exe rcitace tionaist
-  font: Serif
-  lineHeight: 1
-  maxWidth: 5
+  content: "? But you know what? It\u2019s fine. Let them live their delusions. I\u2019ll
+    be over here, thriving as usual.\r\nLove always,\r\nThe One and Only\r"
+  font: Sans
+  lineHeight: 0.5
+  maxWidth: 15
   wordSpacing: 0.05
-  colorCode: 0
+  colorCode: -1
   isReversedX: 0
-  isReversedY: 1
+  isReversedY: 0

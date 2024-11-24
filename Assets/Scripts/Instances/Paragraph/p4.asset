@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p4
   m_EditorClassIdentifier: 
-  content: shampoo
+  content: su fugiat nulla pariatur. hacepteur sint occaecat cumpoo
   font: Serif
-  lineHeight: 0.5
-  maxWidth: 9.5
+  lineHeight: 1.2
+  maxWidth: 15
   wordSpacing: 0
-  colorCode: -1
+  colorCode: 2
   isReversedX: 0
   isReversedY: 0

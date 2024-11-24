@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p2
   m_EditorClassIdentifier: 
-  content: greasy
+  content: 'gyu
+
+    ryii
+
+    ead
+
+    rtsy'
   font: Sans
-  lineHeight: 0.5
-  maxWidth: 0.8
+  lineHeight: 0.8
+  maxWidth: 2
   wordSpacing: 0
   colorCode: 0
   isReversedX: 0

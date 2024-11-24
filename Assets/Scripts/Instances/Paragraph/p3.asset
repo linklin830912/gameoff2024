@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: p3
   m_EditorClassIdentifier: 
   content: "? She\u2019s out here skipping"
-  font: Serif
+  font: Star
   lineHeight: 0.5
-  maxWidth: 9.5
+  maxWidth: 10
   wordSpacing: 0
   colorCode: -1
   isReversedX: 0

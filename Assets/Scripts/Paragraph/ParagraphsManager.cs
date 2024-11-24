@@ -28,6 +28,10 @@ public class ParagraphsManager : MonoBehaviour
     }    
     
     internal static bool moveToObject(PlayerMovementEnum movement) {
+        if (currentSpawner.getIsReverseY()) {
+            if (movement == PlayerMovementEnum.Down) movement = PlayerMovementEnum.Up;
+            else if (movement == PlayerMovementEnum.Up) movement = PlayerMovementEnum.Down;
+        }
         if (currentSpawner.checkNextObject(movement))
         {
             currentTextObject = currentSpawner.getNextObject(movement);

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p1
   m_EditorClassIdentifier: 
-  content: "Dear Diary,\r\nToday was a journey. Where do I even begin?\r\nFirst,
-    Amanda swore up and down that her hair is \u201Cnaturally shiny.\u201D Naturally
+  content: "Dear Diary,\r\nToday was a journey. Where do\nI even begin?\r\nFirst,
+    Amanda swore up and\ndown that her hair is \u201Cnaturally shiny.\u201D\nNaturally
     shiny, or naturally"
-  font: Serif
+  font: Star
   lineHeight: 0.5
-  maxWidth: 6
+  maxWidth: 10
   wordSpacing: 0
   colorCode: -1
   isReversedX: 0

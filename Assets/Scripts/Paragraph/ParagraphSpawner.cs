@@ -15,9 +15,6 @@ public class ParagraphSpawner : MonoBehaviour
     private TextObject endObject;
     private TextObject currentObject;
     private int colorCode;
-    
-    // internal ParagraphSpawner prevSpawner;// remove
-    // internal ParagraphSpawner nextSpawner;// remove
     private Dictionary<int, ParagraphSpawner> nextSpawners;
     private Dictionary<int, ParagraphSpawner> prevSpawners;
     [SerializeField]
@@ -168,6 +165,9 @@ public class ParagraphSpawner : MonoBehaviour
             default:
                 return false;
         }
+    }
+    internal bool getIsReverseY() { 
+        return ((ParagraphObject)spawnObject).isReversedY;
     }
     
     internal int getColorCode() {

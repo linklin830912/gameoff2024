@@ -48,7 +48,9 @@ public class MaskManager : MonoBehaviour
             spawner.gameObject.transform.position = pos;
     }
     internal static void AssignAlphabetColor(int colorCode, GameObject alphabetObj) {
-        if (colorCode == STATIC_COLOR_CODE) alphabetObj.GetComponent<TextMeshPro>().color = Color.black;
+        if (colorCode == STATIC_COLOR_CODE){
+             alphabetObj.GetComponent<TextMeshPro>().color = Color.black;
+            }
     }
 
     public void OnMaskSelected(int selectIndex) {

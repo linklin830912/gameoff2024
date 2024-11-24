@@ -104,7 +104,7 @@ public class TextObject
     }
     internal void setToStaticColorCode() {
         this.colorCode = -1;
-        MaskManager.AssignAlphabetColor(this.colorCode, this.value);
+        MaskManager.AssignAlphabetColor(this.colorCode, this.value);// set to differnt color
     }
     
 }

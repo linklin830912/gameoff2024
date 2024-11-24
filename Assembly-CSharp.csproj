@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Paragraph\Alphabet\TextDictionaryGenerator.cs" />
+    <Compile Include="Assets\Scripts\UI\WordList.cs" />
     <Compile Include="Assets\Scripts\Mask\MaskManager.cs" />
     <Compile Include="Assets\Scripts\Paragraph\ParagraphsManager.cs" />
     <Compile Include="Assets\Scripts\Mask\MaskMovement.cs" />
@@ -92,7 +93,6 @@
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\Scripts\Paragraph\Passage\tt.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />

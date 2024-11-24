@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p20
   m_EditorClassIdentifier: 
-  content: planet
+  content: plisi ut ian quip aieea ceit
   font: Sans
   lineHeight: 0.5
   maxWidth: 2
   wordSpacing: 0.05
   colorCode: 0
   isReversedX: 0
-  isReversedY: 0
+  isReversedY: 1

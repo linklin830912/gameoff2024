@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p5
   m_EditorClassIdentifier: 
-  content: "and calling it a lifestyle.\r\nThen Brad had the nerve to tell everyone
-    he\u2019s \u201Cbuilding his empire.\u201D Brad, sweetie, you sell"
-  font: Sans
-  lineHeight: 0.5
-  maxWidth: 2
+  content: "and calling it a \nlifestyle.\r\nThen Brad had the \nnerve to tell everyone
+    \nhe\u2019s \u201Cbuilding his empire.\u201D\nBrad, sweetie, you sell"
+  font: Star
+  lineHeight: 0.6
+  maxWidth: 10
   wordSpacing: 0.05
-  colorCode: 0
+  colorCode: -1
   isReversedX: 0
   isReversedY: 0

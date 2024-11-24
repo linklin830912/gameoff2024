@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p9
   m_EditorClassIdentifier: 
-  content: ". Tina, if you\u2019re an introvert, then I\u2019m a"
-  font: Sans
-  lineHeight: 0.5
-  maxWidth: 2
+  content: ". Tina, if that is true, then I\u2019m a"
+  font: Star
+  lineHeight: 0.8
+  maxWidth: 16
   wordSpacing: 0.05
-  colorCode: 0
+  colorCode: -1
   isReversedX: 0
   isReversedY: 0
