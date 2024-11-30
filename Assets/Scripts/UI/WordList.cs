@@ -28,6 +28,7 @@ public class WordList : MonoBehaviour
             int moveY = animateComeToScreenHeight;
             animateComeToScreenHeight = 0;
             string currentWord = words[moveY];
+            AudioManager.PlayAudioSource(AudioSourceEnum.Checked);
            StartCoroutine((AnimateWordList(moveY, currentWord)));
         }
     }

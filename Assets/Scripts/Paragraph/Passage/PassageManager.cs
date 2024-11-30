@@ -23,7 +23,8 @@ public class PassageManager : MonoBehaviour
                 return true;
             }
             else if (newPassage.Equals(PASSAGE)) {
-                Debug.Log("game completed");
+                PageManager.onGameComplete();
+                AudioManager.PlayAudioSource(AudioSourceEnum.Applause);
                 return true;
             }
             else if (PASSAGE.Length >= newPassage.Length && !newPassage.Equals(PASSAGE.Substring(0, newPassage.Length))) {
