@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: p23
   m_EditorClassIdentifier: 
   content: "? But you know what? It\u2019s fine. Let them live their delusions. I\u2019ll
-    be over here, thriving as usual.\r\nLove always,\r\nThe One and Only\r"
+    be over here, thriving as usual.\r\nLove always,\r"
   font: Sans
   lineHeight: 0.5
   maxWidth: 15

@@ -23,6 +23,6 @@ MonoBehaviour:
   lineHeight: 0.8
   maxWidth: 2
   wordSpacing: 0
-  colorCode: 0
+  colorCode: 2
   isReversedX: 0
   isReversedY: 0

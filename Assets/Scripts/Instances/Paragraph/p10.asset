@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p10
   m_EditorClassIdentifier: 
-  content: ne enim auc minim erosam, quici nos miuen exe rcitace tionaist
+  content: ne enim auc minim erosam, quici nos miuen exe rcltace tionaist
   font: Serif
   lineHeight: 1
   maxWidth: 5

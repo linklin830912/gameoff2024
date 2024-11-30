@@ -19,11 +19,7 @@ public class PassageManager : MonoBehaviour
             if (PASSAGE.Length > newPassage.Length && newPassage.Equals(PASSAGE.Substring(0, newPassage.Length)))
             {
                 currentPassage = newPassage;
-                return true;
-            }
-            else if (NEXT.Length > newPassage.Length && newPassage.Equals(NEXT.Substring(0, newPassage.Length)))
-            {
-                currentPassage = newPassage;
+                WordList.checkWordComplete(currentPassage);
                 return true;
             }
             else if (newPassage.Equals(PASSAGE)) {

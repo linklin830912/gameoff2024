@@ -34,28 +34,35 @@ public class PlayerMovement : MonoBehaviour
         Vector2 dir = playerControl.ReadValue<Vector2>();
         if (dir.x > 0)
         {
-            if (!isHold || (isHold && count > 50 && count % 5 == 0))
+            
+            if (!isHold || (isHold && count > 50 && count % 5 == 0)){
                 ParagraphsManager.moveToObject(PlayerMovementEnum.Right);
-                isHold = true;
+                AudioManager.PlayAudioSource(AudioSourceEnum.Typewriter);
+            }
+            isHold = true;
             count ++;
         }
         else if (dir.x < 0)
         {            
-            if(!isHold || (isHold && count >50 && count%5==0))
+            
+            if(!isHold || (isHold && count >50 && count%5==0)){
                 ParagraphsManager.moveToObject(PlayerMovementEnum.Left);
+                AudioManager.PlayAudioSource(AudioSourceEnum.Typewriter);}
                 isHold = true;
             count ++;
         }else if (dir.y < 0)
-        {            
-            if(!isHold || (isHold && count >50 && count%5==0 ))
+        {          
+            if(!isHold || (isHold && count >50 && count%5==0 )){
                 ParagraphsManager.moveToObject(PlayerMovementEnum.Down);
+                AudioManager.PlayAudioSource(AudioSourceEnum.Typewriter);}
                 isHold = true;
             count ++;
         }
         else if (dir.y > 0)
-        {            
-            if(!isHold || (isHold && count >50 && count%5==0))
+        {           
+            if(!isHold || (isHold && count >50 && count%5==0)){
                 ParagraphsManager.moveToObject(PlayerMovementEnum.Up);
+                AudioManager.PlayAudioSource(AudioSourceEnum.Typewriter);}
                 isHold = true;
             count ++;
         }

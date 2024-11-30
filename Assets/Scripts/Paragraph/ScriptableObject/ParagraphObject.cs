@@ -13,13 +13,5 @@ public class ParagraphObject : ScriptableObject
     public float wordSpacing;
     public int colorCode;
     public bool isReversedX;
-    public bool isReversedY;
-
-    // Example of a custom method
-    public void UseItem()
-    {
-        Debug.Log("Using ");
-        // Add logic here for what happens when the item is used
-    }
-    
+    public bool isReversedY;    
 }

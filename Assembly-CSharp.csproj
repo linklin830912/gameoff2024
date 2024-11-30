@@ -71,9 +71,11 @@
     <Compile Include="Assets\Scripts\Mask\MaskMovement.cs" />
     <Compile Include="Assets\Scripts\Paragraph\Alphabet\TextObject.cs" />
     <Compile Include="Assets\Scripts\Paragraph\Passage\PassageManager.cs" />
+    <Compile Include="Assets\Scripts\UI\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Paragraph\ScriptableObject\ParagraphObject.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Paragraph\ParagraphSpawner.cs" />
+    <Compile Include="Assets\Scripts\UI\PageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

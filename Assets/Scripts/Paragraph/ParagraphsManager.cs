@@ -48,7 +48,7 @@ public class ParagraphsManager : MonoBehaviour
             return true;
         }
         else { 
-            Debug.Log("back to start");
+            //Debug.Log("back to start");
             return false;
         }
     }

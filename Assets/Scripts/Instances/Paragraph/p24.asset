@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5b012b44593243a741f564dec8be6, type: 3}
   m_Name: p24
   m_EditorClassIdentifier: 
-  content: "? But you know what? It\u2019s fine. Let them live their delusions. I\u2019ll
-    be over here, thriving as usual.\r\nLove always,\r\nThe One and Only\r"
-  font: Sans
-  lineHeight: 0.5
-  maxWidth: 15
+  content: Theem ipsum dolor Oit amet consectetneAndOnly dipiscing elit
+  font: Serif
+  lineHeight: 0.8
+  maxWidth: 8
   wordSpacing: 0.05
-  colorCode: -1
+  colorCode: 1
   isReversedX: 0
   isReversedY: 0

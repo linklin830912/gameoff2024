@@ -22,7 +22,7 @@ public class MaskMovement : MonoBehaviour
     internal static void setMask(GameObject mask) {
         currentMask = mask;
         if(mask != null)
-            validRadius = mask.GetComponent<SphereCollider>().radius*2;
+            validRadius = mask.GetComponent<SphereCollider>().radius*4;
             
     }
     internal static bool detectValidPlayerMovement(TextObject textObject) {

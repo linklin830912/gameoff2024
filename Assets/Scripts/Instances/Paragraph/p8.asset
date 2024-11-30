@@ -19,6 +19,6 @@ MonoBehaviour:
   lineHeight: 0.5
   maxWidth: 1.5
   wordSpacing: 0.05
-  colorCode: 0
+  colorCode: 2
   isReversedX: 0
   isReversedY: 0
